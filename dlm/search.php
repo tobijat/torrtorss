@@ -1,7 +1,7 @@
 <?php
 
 class SynoDLMSearchTorrentTo {
-	private $qurl = 'http://192.168.178.22/torrtorss/torrentto.php?search=';
+	private $qurl = 'http://127.0.0.1/torrtorss/torrentto.php?search=';
 
 	public function __construct() {
 	}
