@@ -19,8 +19,7 @@ $parameters = array(
 
 $request = new TorrentRequest( REQUEST_URL, $parameters, 'POST' );
 $processedEntries = processResult( $request->execute() );
-
-echo json_encode( $processedEntries );
+outputResult( $processedEntries );
 
 function processResult( $result ) {
 	$resultObj = json_decode($result, true);
@@ -46,3 +45,7 @@ function processResult( $result ) {
 	return( $processedEntries );
 }
 
+function outputResult( $entries ) {
+	header( 'Content-type: application/json' );
+	echo json_encode( array( 'list' => $entries ) );
+}
