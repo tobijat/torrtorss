@@ -20,7 +20,7 @@ class SynoDLMSearchTorrentTo {
 				'download' => 'download',
 				'hash' => 'hash',
 				'size' => 'size',
-				'page' => 'link',
+				'page' => 'page',
 				'date' => 'datetime',
 				'seeds' => 'seeds',
 				'leechs' => 'leechs',
