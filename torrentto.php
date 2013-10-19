@@ -2,7 +2,8 @@
 require_once 'TorrentRequest.php';
 
 const REQUEST_URL = 'http://torrent.to/res/php/Ajax.php';
-const TORRENT_URL = 'http://torrent.to/res/php/Downloader.php';
+const TORRENT_URL = 'http://torrent.to/res/php/Downloader.php?ID=';
+const DETAILS_URL = 'http://torrent.to/torrent.php?Mod=Details&ID=';
 
 $searchTerm = isset( $_GET['search'] ) ? $_GET['search'] : '';
 
@@ -17,7 +18,9 @@ $parameters = array(
 );
 
 $request = new TorrentRequest( REQUEST_URL, $parameters, 'POST' );
-processResult( $request->execute() );
+$processedEntries = processResult( $request->execute() );
+
+echo json_encode( $processedEntries );
 
 function processResult( $result ) {
 	$resultObj = json_decode($result, true);
@@ -26,10 +29,20 @@ function processResult( $result ) {
 	$processedEntries = array();
 
 	foreach ( $entries as $entry ) {
-		$entry['Torrent'] = TORRENT_URL . "?ID={$entry['ID']}&Filename={$entry['Title']}";
-		$processedEntries[] = $entry;
+		$processedEntry = array();
+		$processedEntry['title'] = $entry['Title'];
+		$processedEntry['download'] = TORRENT_URL . "{$entry['ID']}&Filename={$entry['Title']}";
+		$processedEntry['size'] = $entry['HSize'];
+		$processedEntry['datetime'] = date( "Y-m-d H:i:s", $entry['TimeStamp'] );
+		$processedEntry['page'] = DETAILS_URL . "{$entry['ID']}";
+		$processedEntry['hash'] = '';
+		$processedEntry['seeds'] = $entry['Seeder'];
+		$processedEntry['leechs'] = $entry['Leecher'];
+		$processedEntry['category'] = '';
+
+		$processedEntries[] = $processedEntry;
 	}
 
-	print_r($processedEntries);
+	return( $processedEntries );
 }
 
