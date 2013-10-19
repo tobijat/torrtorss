@@ -1,5 +1,5 @@
 <?php
-require_once 'TorrentRequest.php';
+require_once 'lib/TorrentRequest.php';
 
 const REQUEST_URL = 'http://torrent.to/res/php/Ajax.php';
 const TORRENT_URL = 'http://torrent.to/res/php/Downloader.php?ID=';
